@@ -230,7 +230,7 @@ MonoBehaviour:
   raycaster: {fileID: 0}
   anchorManager: {fileID: 0}
   timerPrefab: {fileID: 5501891395368173046, guid: 9b9ab8f051c834dbc8899b7f979a88ac, type: 3}
-  reticleController: {fileID: 0}
+  reticleController: {fileID: 1468896257}
   useReticleFirst: 1
   heightOffset: 0.05
   initialMinutes: 3

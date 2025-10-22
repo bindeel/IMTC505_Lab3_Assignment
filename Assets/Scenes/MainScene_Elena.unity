@@ -203,17 +203,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 3150904122865897539, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
   m_PrefabInstance: {fileID: 8270738035729778383}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &373644422 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7194364276708568649, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
-  m_PrefabInstance: {fileID: 8270738035729778383}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 373644421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.XR.ARFoundation::UnityEngine.XR.ARFoundation.ARRaycastManager
 --- !u!114 &373644431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,9 +218,7 @@ MonoBehaviour:
   arCamera: {fileID: 1609033005}
   raycaster: {fileID: 0}
   anchorManager: {fileID: 0}
-  timerPrefab: {fileID: 5501891395368173046, guid: 9b9ab8f051c834dbc8899b7f979a88ac, type: 3}
-  reticleController: {fileID: 1468896257}
-  useReticleFirst: 1
+  timerPrefab: {fileID: 6331994187579008662, guid: ce906eb31e7b24215ba71c2625ae05b8, type: 3}
   heightOffset: 0.05
   initialMinutes: 3
   initialSeconds: 0
@@ -303,7 +290,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 459046456}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4674f37cc4f214f028cb8b58b38f0e37, type: 3}
   m_Name: 
@@ -354,89 +341,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &1468896255
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 2885997425293961324, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_Name
-      value: Reticle
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1.19914
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 1.15004
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5893931820568662334, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 2885997425293961324, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1468896257}
-  m_SourcePrefab: {fileID: 100100000, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
---- !u!1 &1468896256 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2885997425293961324, guid: f073a50ce439a4296918a9f1e4d22e13, type: 3}
-  m_PrefabInstance: {fileID: 1468896255}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1468896257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468896256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f63014530f2e14207b79f125ad4568ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ReticleController
-  arCamera: {fileID: 1609033005}
-  raycaster: {fileID: 373644422}
-  reticle: {fileID: 1468896256}
-  useCenterScreen: 1
-  requireNearCookware: 0
-  cookwareRadiusMeters: 0.35
 --- !u!20 &1609033005 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 7329329871577917849, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
@@ -660,4 +564,3 @@ SceneRoots:
   - {fileID: 667008819}
   - {fileID: 8270738035729778383}
   - {fileID: 85529461}
-  - {fileID: 1468896255}

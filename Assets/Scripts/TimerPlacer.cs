@@ -1,6 +1,6 @@
-// TimerPlacer_Input.cs
-// Place this on your XR Origin (same GO as ARRaycastManager + ARAnchorManager).
-// NEW INPUT SYSTEM ONLY: uses EnhancedTouch (no legacy Input).
+// TimerPlacer_NewInput.cs
+// Attach to XR Origin (same GO that has ARRaycastManager + ARAnchorManager).
+// NEW INPUT SYSTEM ONLY (uses EnhancedTouch). No Reticle required.
 
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,23 +14,18 @@ using Touch = UnityEngine.InputSystem.EnhancedTouch.Touch;
 public class TimerPlacer : MonoBehaviour
 {
     [Header("Refs")]
-    public Camera arCamera;                  // assign your AR Camera (tag MainCamera)
-    public ARRaycastManager raycaster;       // (auto-fills from same GO if left null)
-    public ARAnchorManager anchorManager;    // (auto-fills from same GO if left null)
+    public Camera arCamera;                  // Assign your AR Camera (tag MainCamera)
+    public ARRaycastManager raycaster;       // Auto-filled from this GO if null
+    public ARAnchorManager anchorManager;    // Auto-filled from this GO if null
 
-    [Tooltip("Timer prefab with TimerSimple + Billboard, etc.")]
-    public GameObject timerPrefab;           // assign your Timer prefab
-
-    [Header("Optional Reticle")]
-    [Tooltip("If assigned, will try using the reticle pose first.")]
-    public ReticleController reticleController;
-    public bool useReticleFirst = true;
+    [Tooltip("Timer prefab with TimerSimple + Billboard + ButtonAction colliders")]
+    public GameObject timerPrefab;
 
     [Header("Placement")]
-    [Tooltip("Meters above the plane so the card never z-fights.")]
+    [Tooltip("Meters above the plane to avoid z-fighting")]
     public float heightOffset = 0.08f;
 
-    [Header("Initial Time (optional)")]
+    [Header("Initial Time")]
     public int initialMinutes = 3;
     public int initialSeconds = 0;
 
@@ -58,50 +53,40 @@ public class TimerPlacer : MonoBehaviour
 
     void Update()
     {
-        // Handle first touch began this frame
         foreach (var t in Touch.activeTouches)
         {
-            if (t.phase != UnityEngine.InputSystem.TouchPhase.Began) continue;
+            if (t.phase != UnityEngine.InputSystem.TouchPhase.Began)
+                continue;
 
-            // 1) If tap hits an existing timer (its card or buttons), DO NOT place a new timer
-            if (TapHitsExistingTimer(t.screenPosition)) continue;
+            // 1) If tap is on an existing timer/card/button, DO NOT place a new timer
+            if (TapHitsExistingTimer(t.screenPosition))
+                continue;
 
-            // 2) Get a placement pose
-            Pose pose;
-            ARPlane hitPlane = null;
+            // 2) AR raycast from touch to plane
+            if (!raycaster || !raycaster.Raycast(t.screenPosition, s_Hits, TrackableType.PlaneWithinPolygon))
+                continue;
 
-            if (useReticleFirst && reticleController && reticleController.TryGetPose(out pose))
-            {
-                // Using reticle pose (may not know which plane; that's okay)
-            }
-            else
-            {
-                // Raycast directly from the touch point to a plane
-                if (!raycaster || !raycaster.Raycast(t.screenPosition, s_Hits, TrackableType.PlaneWithinPolygon))
-                    continue;
+            var hit     = s_Hits[0];
+            var pose    = hit.pose;
+            var plane   = hit.trackable as ARPlane;
 
-                var hit = s_Hits[0];
-                pose = hit.pose;
-                hitPlane = hit.trackable as ARPlane;
-            }
-
-            // 3) Create an anchor (prefer attaching to the plane if we have it)
-            var anchor = CreateAnchor(pose, hitPlane);
+            // 3) Create an anchor (attach to plane if possible)
+            var anchor = CreateAnchor(pose, plane);
             if (!anchor) continue;
 
-            // 4) Spawn the timer, lifted slightly, facing the camera
+            // 4) Spawn timer slightly above plane, facing camera
             var pos = anchor.transform.position + Vector3.up * heightOffset;
             var rot = Quaternion.LookRotation(arCamera.transform.forward, Vector3.up);
 
             var go = Instantiate(timerPrefab, pos, rot, anchor.transform);
             go.name = "Timer (spawned)";
 
-            // 5) Optionally set a starting time so you can see it count
+            // 5) Optional: initialize a starting time
             var timer = go.GetComponent<TimerSimple>();
             if (timer)
                 timer.SetTimeMMSS(initialMinutes, initialSeconds);
 
-            // Only place ONE per tap
+            // One placement per tap
             break;
         }
     }
@@ -111,24 +96,25 @@ public class TimerPlacer : MonoBehaviour
         if (!arCamera) return false;
 
         var ray = arCamera.ScreenPointToRay(screenPos);
-        if (Physics.Raycast(ray, out var hit, 10f))
+        if (Physics.Raycast(ray, out var hit, 15f))
         {
-            var timer = hit.transform.GetComponentInParent<TimerSimple>();
-            if (timer != null) return true; // tap was on a timer/card/button
+            // If the hit object (or any parent) belongs to a Timer, ignore this tap for placement
+            if (hit.transform.GetComponentInParent<TimerSimple>() != null)
+                return true;
         }
         return false;
     }
 
     ARAnchor CreateAnchor(Pose pose, ARPlane planeIfAny)
     {
-        // Prefer attaching to the hit plane if provided (more stable)
+        // Prefer attaching to the hit plane (more stable over time)
         if (planeIfAny && anchorManager)
         {
             var a = anchorManager.AttachAnchor(planeIfAny, pose);
             if (a) return a;
         }
 
-        // Fallback: world-space anchor at the pose
+        // Fallback: world-space anchor at pose
         var go = new GameObject("WorldAnchor");
         go.transform.SetPositionAndRotation(pose.position, pose.rotation);
         return go.AddComponent<ARAnchor>();

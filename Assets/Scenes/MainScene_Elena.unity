@@ -528,7 +528,7 @@ PrefabInstance:
     - target: {fileID: 6009794877244955782, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
       propertyPath: m_PlanePrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 7038485574746710341, guid: 15ec6f90d5310482bbf214c4e4fd9225, type: 3}
     - target: {fileID: 6694789232723041700, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -554,7 +554,43 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3150904122865897539, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
       insertIndex: -1
       addedObject: {fileID: 373644431}
+    - targetCorrespondingSourceObject: {fileID: 3150904122865897539, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8270738035729778385}
   m_SourcePrefab: {fileID: 100100000, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
+--- !u!114 &8270738035729778384 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6009794877244955782, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
+  m_PrefabInstance: {fileID: 8270738035729778383}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373644421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1760703bbd54c04488a8d10600262ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.XR.ARFoundation::UnityEngine.XR.ARFoundation.ARPlaneManager
+--- !u!114 &8270738035729778385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 373644421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3881bedf29d34b148b2142679b882d6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DropOnPlane
+  objectToDrop: {fileID: 919132149155446097, guid: bae9c7c8937cd9246a90577278644fcd, type: 3}
+  planeManager: {fileID: 8270738035729778384}
+  spawnDistance: 0.5
+  gravity: 9.81
+  initialHorizontalSpeed: 5
+  useCameraForwardForHorizontal: 1
+  planeSnapEpsilon: 0.01
+  shrinkRatePerSecond: 0.5
+  minScaleRatio: 0.4
+  disappearAfterSecondsIfNoPlane: 1.5
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

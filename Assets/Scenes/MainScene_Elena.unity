@@ -581,16 +581,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3881bedf29d34b148b2142679b882d6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DropOnPlane
-  objectToDrop: {fileID: 919132149155446097, guid: bae9c7c8937cd9246a90577278644fcd, type: 3}
+  objectToDrop: {fileID: 1809604558156155359, guid: 6b9fb7dce46f26149916b20e04358e28, type: 3}
   planeManager: {fileID: 8270738035729778384}
-  spawnDistance: 0.5
-  gravity: 9.81
-  initialHorizontalSpeed: 5
-  useCameraForwardForHorizontal: 1
-  planeSnapEpsilon: 0.01
   shrinkRatePerSecond: 0.5
-  minScaleRatio: 0.4
-  disappearAfterSecondsIfNoPlane: 1.5
+  minScaleRatio: 0.7
+  disappearAfterSecondsIfNoPlane: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

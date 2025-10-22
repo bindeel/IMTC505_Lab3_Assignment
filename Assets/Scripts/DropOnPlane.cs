@@ -6,38 +6,34 @@ using UnityEngine.XR.ARSubsystems;
 public class DropOnPlane : MonoBehaviour
 {
     public GameObject objectToDrop;
-    private ARRaycastManager raycastManager;
-    [SerializeField] private ARPlaneManager planeManager; // used to verify horizontal alignment
-    
+
     // Drop Settings
-    [SerializeField] private float spawnDistance = 0.5f;       // meters in front of the camera along the touch ray
-    [SerializeField] private float gravity = 9.81f;            // m/s^2
-    [SerializeField] private float initialHorizontalSpeed = 0; // m/s (0 = pure drop)
-    [SerializeField] private bool useCameraForwardForHorizontal = true; // if false, uses camera.right
-    [SerializeField] private float planeSnapEpsilon = 0.01f;   // snap tolerance (meters)
+    private float spawnDistance = 0.5f;       // meters in front of the camera along the touch ray
+    private float gravity = 9.81f;            // m/s^2
+    private float initialHorizontalSpeed = 5; // m/s (0 = pure drop)
+    private bool useCameraForwardForHorizontal = true; // if false, uses camera.right
+    private float planeSnapEpsilon = 0.01f;   // snap tolerance (meters)
 
     // Falling Visuals
-    [SerializeField] private float shrinkRatePerSecond = 0.5f; // shrink ratio per second (1 -> 0)
-    [SerializeField] private float minScaleRatio = 0.4f;       // don't shrink below 40% original
+    private float shrinkRatePerSecond = 0.5f; // shrink ratio per second (1 -> 0)
+    private float minScaleRatio = 0.6f;       // don't shrink below 60% original
 
     // Lifetime
-    [SerializeField] private float disappearAfterSecondsIfNoPlane = 1.5f;
+    private float disappearAfterSecondsIfNoPlane = 0.5f;
     
     static List<ARRaycastHit> hits = new List<ARRaycastHit>();
-    private Camera arCamera;
+    private Camera camera;
     
     private GameObject placedObject;
     private Vector3 velocity;          // current velocity (m/s)
     private bool isFalling;
     private Vector3 originalScale;     // prefab's original scale
-    private float scaleRatio = 1f;     // current uniform scale ratio
+    private float scaleRatio = 0.8f;     // current uniform scale ratio
     private float aliveTimer;          // time since spawn (s)
 
     void Start()
     {
-        raycastManager = GetComponent<ARRaycastManager>();
-        planeManager   = GetComponent<ARPlaneManager>();
-        arCamera = Camera.main;
+        camera = Camera.main;
     }
 
     void Update()
@@ -64,25 +60,41 @@ public class DropOnPlane : MonoBehaviour
             // Predict next position
             Vector3 curPos = placedObject.transform.position;
             Vector3 nextPos = curPos + velocity * dt;
-
-            // Raycast straight down from *next* position to find planes
+            
             hits.Clear();
-            var downRay = new Ray(nextPos + Vector3.up * 0.001f, Vector3.down);
-            bool hitPlane = raycastManager && raycastManager.Raycast(downRay, hits, TrackableType.PlaneWithinPolygon);
 
-            if (hitPlane)
+            // object footprint for the cast
+            float radius = 0.05f;
+            if (placedObject && placedObject.TryGetComponent<Collider>(out var col))
+                radius = Mathf.Max(0.02f, Mathf.Max(col.bounds.extents.x, col.bounds.extents.z));
+
+            // cover the whole movement this frame to avoid tunneling
+            float   fallDist = Mathf.Max((curPos - nextPos).magnitude + radius * 0.5f, radius * 2f);
+
+            // cast downward to see if we touch a horizontal ARPlane
+            if (Physics.SphereCast(curPos + Vector3.up * radius,
+                    radius,
+                    Vector3.down,
+                    out var physHit,
+                    fallDist,
+                    ~0,
+                    QueryTriggerInteraction.Ignore))
             {
-                // Get nearest hit
-                var hit = hits[0];
-                bool horizontal = IsHorizontalPlane(hit);
-
-                // Land if we're essentially at the plane and moving downward
-                if (horizontal && velocity.y <= 0f && Mathf.Abs(nextPos.y - hit.pose.position.y) <= planeSnapEpsilon)
+                var plane = physHit.collider.GetComponentInParent<ARPlane>();
+                if (plane != null &&
+                    (plane.alignment == PlaneAlignment.HorizontalUp || plane.alignment == PlaneAlignment.HorizontalDown) &&
+                    velocity.y <= 0f)
                 {
-                    placedObject.transform.position = hit.pose.position;
-                    velocity = Vector3.zero;
-                    isFalling = false; // stick to plane
-                    return;
+                    float contactY = physHit.point.y;
+
+                    // snap if we're essentially on the plane
+                    if ((curPos.y - contactY) <= Mathf.Max(planeSnapEpsilon, radius * 0.25f))
+                    {
+                        placedObject.transform.position = new Vector3(nextPos.x, contactY, nextPos.z);
+                        velocity = Vector3.zero;
+                        isFalling = false; // stick to plane
+                        return;
+                    }
                 }
             }
 
@@ -92,30 +104,28 @@ public class DropOnPlane : MonoBehaviour
             // Shrink while falling
             scaleRatio = Mathf.Max(minScaleRatio, scaleRatio - shrinkRatePerSecond * dt);
             placedObject.transform.localScale = originalScale * scaleRatio;
-
-            // Despawn if no plane caught us within the time limit
+            
             if (aliveTimer >= disappearAfterSecondsIfNoPlane)
             {
-                Destroy(placedObject);
-                placedObject = null;
-                isFalling = false;
+                velocity = Vector3.zero;
+                isFalling = false; // stop moving/shrinking; it stays at its current position/scale
             }
         }
     }
 
     private void SpawnAndDropFromTouch(Vector2 screenPos)
     {
-        if (!arCamera || !objectToDrop) return;
+        if (!camera || !objectToDrop) return;
 
         // If an old object exists, replace it
         if (placedObject) Destroy(placedObject);
 
         // Convert touch to a world position along the camera ray at a fixed distance
-        Ray touchRay = arCamera.ScreenPointToRay(screenPos);
+        Ray touchRay = camera.ScreenPointToRay(screenPos);
         Vector3 startPos = touchRay.origin + touchRay.direction.normalized * spawnDistance;
 
         // Face roughly the camera yaw (looks nicer)
-        Quaternion rot = Quaternion.Euler(0f, arCamera.transform.eulerAngles.y, 0f);
+        Quaternion rot = Quaternion.Euler(0f, camera.transform.eulerAngles.y, 0f);
 
         placedObject = Instantiate(objectToDrop, startPos, rot);
 
@@ -126,8 +136,8 @@ public class DropOnPlane : MonoBehaviour
 
         // Initial horizontal throw (optional)
         Vector3 horizDir = useCameraForwardForHorizontal
-            ? Vector3.ProjectOnPlane(arCamera.transform.forward, Vector3.up).normalized
-            : Vector3.ProjectOnPlane(arCamera.transform.right,   Vector3.up).normalized;
+            ? Vector3.ProjectOnPlane(camera.transform.forward, Vector3.up).normalized
+            : Vector3.ProjectOnPlane(camera.transform.right,   Vector3.up).normalized;
 
         velocity = horizDir * Mathf.Max(0f, initialHorizontalSpeed); // no initial vertical component
         isFalling = true;
@@ -139,22 +149,5 @@ public class DropOnPlane : MonoBehaviour
             rb.isKinematic = true;  // we handle motion manually
             rb.useGravity = false;
         }
-    }
-
-    private bool IsHorizontalPlane(ARRaycastHit hit)
-    {
-        // Prefer an explicit alignment check via ARPlaneManager if available
-        if (planeManager)
-        {
-            ARPlane plane = planeManager.GetPlane(hit.trackableId);
-            if (plane != null)
-            {
-                return plane.alignment == PlaneAlignment.HorizontalUp ||
-                       plane.alignment == PlaneAlignment.HorizontalDown;
-            }
-        }
-
-        // Fallback: use the hit pose's up vector
-        return Vector3.Dot(hit.pose.up, Vector3.up) > 0.95f;
     }
 }

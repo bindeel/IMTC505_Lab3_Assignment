@@ -444,8 +444,30 @@ PrefabInstance:
     - {fileID: 5931652145702064403, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3150904122865897539, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8270738035729778385}
   m_SourcePrefab: {fileID: 100100000, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
+--- !u!1 &8270738035729778384 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3150904122865897539, guid: 53ab5fd4c70a14263a21c72421a6d66c, type: 3}
+  m_PrefabInstance: {fileID: 8270738035729778383}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8270738035729778385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8270738035729778384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d17afeee251eb4c856db40545d39be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NewMonoBehaviourScript
+  dogPrefab: {fileID: 1368267084585939352, guid: 24fd65dd653979040b170e4c3adf5cd4, type: 3}
+  planeManager: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

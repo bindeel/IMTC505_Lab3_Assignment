@@ -125,7 +125,7 @@ All detailed explanations, implementation notes, and screenshots are available i
 
 ### 🎥 Demo Video
 A full demo video showing all interactions in action can be viewed here:  
-👉 **[YouTube Demo Video – Add Link Here]()**
+👉 **[YouTube Demo Video – Add Link Here]()** <!-- TODO: Replace with actual YouTube video URL once uploaded -->
  
 - Proper GitHub commit history with feature branches:
 
@@ -142,5 +142,7 @@ This project is for **educational purposes only** as part of UBC Okanagan’s IM
 All 3D assets and scripts are original or used under free/educational licenses.
 
 ---
+
+
 
 

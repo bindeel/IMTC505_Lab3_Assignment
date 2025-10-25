@@ -120,14 +120,18 @@ A fun AR experience where users can **place and move a Shiba Inu dog** in their 
 
 ## 📱 Demo & Deliverables
 
-Each feature includes:
-- A working Unity scene with prefab-based AR interaction.  
-- A short video demo recorded on an Android device (links provided on Canvas).  
-- Full explanation of code, design, and interaction logic.  
-- Proper GitHub history with branches per feature:
-  - `cooking-timers-elena`
-  - `drop-item-on-floor`
-  - `Pinch-to-scale-and-rotate-mahdieh`
+All detailed explanations, implementation notes, and screenshots are available in this shared document:  
+🔗 **[Full Lab 3 Report & Explanations (Google Docs)](https://docs.google.com/document/d/123NqOU2XMpAGBi69Dbk4kaUpwmZiIsYm6S2f3w9v4Xk/edit?usp=sharing)**
+
+### 🎥 Demo Video
+A full demo video showing all interactions in action can be viewed here:  
+👉 **[YouTube Demo Video – Add Link Here]()**
+ 
+- Proper GitHub commit history with feature branches:
+
+  - `cooking-timers-elena`  
+  - `drop-item-on-floor`  
+  - `Pinch-to-scale-and-rotate-mahdieh`  
   - `Lei-Chen-Branch`
 
 ---

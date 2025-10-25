@@ -12,8 +12,13 @@ EditorBuildSettings:
     path: Assets/Scenes/MainScene_Elena.unity
     guid: 6177f220d22274a39b901ad9be0b1aa2
   - enabled: 1
+<<<<<<< Updated upstream
     path: Assets/Scenes/LeiChenScene.unity
     guid: 9a0771e1117a071429123f721fac362b
+=======
+    path: Assets/Scenes/MahdiehScene.unity
+    guid: 88f9d641f3aff4b478b636d63791e958
+>>>>>>> Stashed changes
   m_configObjects:
     UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: 6ee72d15cf39dd748a13eac57397b9af, type: 2}
     UnityEditor.XR.ARKit.ARKitSettings: {fileID: 11400000, guid: 0465d33c6aee55f44b0237db8b0e0259, type: 2}

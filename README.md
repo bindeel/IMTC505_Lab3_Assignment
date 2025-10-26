@@ -53,7 +53,6 @@ Users can spawn a timer with a reticle and control countdown functions with tap 
 - *ButtonAction.cs* handles button interaction types.  
 - *Billboard.cs* ensures the timer card always faces the camera.  
 - *TimerPlacer.cs* handles plane detection and prefab placement.  
-- *ReticleController.cs* manages placement visualization.
 
 ---
 

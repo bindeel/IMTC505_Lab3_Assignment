@@ -124,7 +124,7 @@ All detailed explanations, implementation notes, and screenshots are available i
 
 ### 🎥 Demo Video
 A full demo video showing all interactions in action can be viewed here:  
-👉 **[YouTube Demo Video – Add Link Here](https://www.youtube.com/watch?v=pmxDZvxjM9I&feature=youtu.be)**
+👉 **[YouTube Demo Video](https://www.youtube.com/watch?v=pmxDZvxjM9I&feature=youtu.be)**
  
 - Proper GitHub commit history with feature branches:
 
